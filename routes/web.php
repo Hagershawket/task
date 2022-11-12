@@ -23,3 +23,5 @@ Route::post('store'           , [App\Http\Controllers\PostController::class, 'st
 Route::post('destroy'         , [App\Http\Controllers\PostController::class, 'destroy'])->name('posts.destroy');
 Route::post('like'            , [App\Http\Controllers\PostController::class, 'likePost'])->name('like');
 Route::get('posts/{id}'       , [App\Http\Controllers\PostController::class, 'posts'])->name('posts');
+Route::get('comments/{id}'    , [App\Http\Controllers\CommentController::class, 'getComments'])->name('getComments');
+Route::post('comments/store'  , [App\Http\Controllers\CommentController::class, 'store'])->name('comments.store');

@@ -65,8 +65,8 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         $photo='';
-        if ($request->has('photo')) {
-            $photo = uploadImage('users', $request->photo);
+        if ($data['photo']) {
+            $photo = uploadImage('users', $data['photo']);
         }
         return User::create([
             'name' => $data['name'],

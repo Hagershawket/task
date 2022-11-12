@@ -78,9 +78,38 @@
 						@endforeach
                     </div>
                     <div class="card-footer">
-                        <a href="#" class="card-link like" style={{ Auth::user()->likes()->where('post_id', $post->id)->first() ? Auth::user()->likes()->where('post_id', $post->id)->first()->like == 1 ? "color: #007bff;" : "color: grey;" : "color: grey;"}}><i class="fa fa-thumbs-up"></i> {{ Auth::user()->likes()->where('post_id', $post->id)->first() ? Auth::user()->likes()->where('post_id', $post->id)->first()->like == 1 ? 'Like' : 'Like' : 'Like'  }}</a>
-                        <a href="#" class="card-link comment" style="color: grey;"><i class="fa fa-comment"></i> Comment</a>
+                        <a><span>{{$post->likes()->count()}}</span></a>
+                        <a href="#" class="card-link like"><i class="fa fa-thumbs-up"></i> {{ Auth::user()->likes()->where('post_id', $post->id)->first() ? Auth::user()->likes()->where('post_id', $post->id)->first()->like == 1 ? 'Like' : 'Like' : 'Like'  }}</a>&nbsp;&nbsp;
+                        <a><span>{{$post->comments()->count()}}</span></a>
+                        <a href="#" class="card-link comment"><i class="fa fa-comment"></i> Comment</a>
                     </div>
+                    <div class="comment-area mt-4">
+                        <div class="card card-body">
+                            <h6 class="card-title">Leave a comment</h6>
+                            <form data-action="{{ route('comments.store') }}" method="POST" id="add-comment-form">
+                                @csrf
+                                <input type="hidden" value="{{$post->id}}" name="post_id">
+                                <textarea type="text" name="comment" class="form-control" rows="3" required></textarea>
+                                <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                            </form>
+                        </div>
+                        <div id="comment-container">
+                        @foreach ($post->comments as $comment)
+                            <div class="card card-body shadow-sm mt-3">
+                                <div class="detail-area">
+                                    <h6 class="user-name mb-1">{{$comment->user->name}}
+                                        <small class="ms-3 text-primary">commented on : {{$comment->created_at->diffForHumans()}}</small>
+                                    </h6>
+                                    <p class="user-comment mb-1">
+                                        {{$comment->comment}}
+                                    </p>
+                                </div>
+                            </div>       
+                        @endforeach
+                        </div>
+                    </div>
+
+
                 </div>
                 <br>
                 @endforeach
